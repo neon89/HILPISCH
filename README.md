@@ -1,4 +1,4 @@
-# HILPISCH - ALGO Trading Project
+# HILPISCH - ALGO Trading Project on Oil price moves
 # Author: Raphael Bruggmann
 # Date: 15.08.2023
 # Location: Zuerich
