@@ -9,19 +9,19 @@ To forecast the market's direction (up or down), we will use a broad library of 
 
 Following algos are applied:
 
-Bolliger Band
+1. Bolliger Band
 
-Relative Strengthen Index (RSI)
+2. Relative Strengthen Index (RSI)
 
-Logistic Classifier with Grid search and cross validation - pipeline structure
+3. Logistic Classifier with Grid search and cross validation - pipeline structure
 
-KNN Classifier with Grid search and cross validation - pipeline structure
+4. KNN Classifier with Grid search and cross validation - pipeline structure
 
-Recurrent Neural Network (RNN) Simple
+6. Recurrent Neural Network (RNN) Simple
 
-Recurrent Neural Network (RNN) with Financial Features and data Split (train/Test)
+7. Recurrent Neural Network (RNN) with Financial Features and data Split (train/Test)
 
-Density Neutral Network (DNN) with object oriented programming (DNN1 to DNN4)
+8. Density Neutral Network (DNN) with object oriented programming (DNN1 to DNN4)
 
 Data Exploration and Viszualization: I conducted a preliminary exploratory data analysis to gain a better understanding of the data and assess its quality. The analysis will primarily involve visualization libraries to gain insights into the data. Plotly will be a useful tool for visualizing the necessary data. To have a complete information set similar to what is available on regular trading platforms, it will be important to create a chart that includes Open, High, Low, Close, and Volume information. In addition to the usual charts such as histograms and line charts, this chart will provide valuable insights into the price trends and trading volume over time.
 
