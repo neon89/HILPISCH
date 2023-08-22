@@ -1,20 +1,19 @@
     
 
+import matplotlib.pyplot as plt
+
 def myhistplot(data):
     headers = list(data)
-    rows = int(len(data.columns)/2)
-    print(rows)
-    cols = int(len(data.columns)/rows)
-    print(cols)
-    import matplotlib.pyplot as plt
+    rows = int(len(data.columns) / 2)
+    cols = int(len(data.columns) / rows)
     plt.rcParams.update({'font.size': 30})
-    fig, axes = plt.subplots(nrows = rows, ncols= cols, figsize=(40,25))
-    for c, ax in zip (headers, axes.ravel()):
-        ax.hist(data[c],bins=30, color='r')
+    fig, axes = plt.subplots(nrows=rows, ncols=cols, figsize=(40, 25))
+    
+    for c, ax in zip(headers, axes.ravel()):
+        ax.hist(data[c], bins=30, color='r')
         ax.grid(which='major')
         plt.tight_layout()
-        ax.set_title(c) 
-
+        ax.set_title(c)
         
         
 def gain(value):
@@ -32,7 +31,7 @@ def loss(value):
 def specs(df,window):
     import numpy as np
     
-    #based on returns
+    #based on returns calculate vola, momentum, smoothing average, min, max 
     df['return'] = np.log(df.c/df.c.shift(1))
     df['vola'] = df['return'].rolling(window).std()
     df['mom'] = np.sign(df['return'].rolling(window).mean())
@@ -41,25 +40,27 @@ def specs(df,window):
     df['max'] = df['return'].rolling(window).max()
     return df
 
-def bolliger_band(df,std1,std2,window):
+
+def bollinger_band(df, std1, std2, window):
     import numpy as np
+    # Calculate Bollinger Bands and signals based on input parameters
+    df['ma_window'] = df['c'].rolling(window).mean()
+    df['upper_bol'] = df['ma_window'] + (std1 * df['c'].rolling(window).std())
+    df['lower_bol'] = df['ma_window'] - (std2 * df['c'].rolling(window).std())
     
-    #based on outright prices - bolliger bands and RSI
-    df['ma_window'] = df.c.rolling(window).mean()
-    df['upper_bol'] = df.ma_window + (std1*(df.c.rolling(window).std()))
-    df['lower_bol'] = df.ma_window - (std2*(df.c.rolling(window).std()))
-    
-    #buy/sell next trading day
-    df['signal_bol'] = np.where((df.c < df['lower_bol']),1, np.nan)
-    
-    #sell signal rsi
-    df['signal_bol'] = np.where((df.c > df['upper_bol']),-1, df['signal_bol'])
+    # Generate buy/sell signals
+    df['signal_bol'] = np.where(df['c'] < df['lower_bol'], 1, np.nan)
+    df['signal_bol'] = np.where(df['c'] > df['upper_bol'], -1, df['signal_bol'])
     df['signal_bol'] = df['signal_bol'].ffill().fillna(0)
-    df['strategy_bol'] = df['signal_bol'].shift(1)*df['return']
+    
+    # Calculate strategy returns and cumulative metrics
+    df['strategy_bol'] = df['signal_bol'].shift(1) * df['return']
     df['cum_strategy_bol'] = df['strategy_bol'].dropna().cumsum().apply(np.exp)
     df['cum_return_bol'] = df['return'].dropna().cumsum().apply(np.exp)
     df['cum_max_bol'] = df['cum_strategy_bol'].cummax()
+    
     return df
+
 
 def rsi_indicator(df,window):
     import numpy as np
@@ -111,6 +112,8 @@ def mean_reversion(df,window,threshold):
                                 0, df['signal_MR'])
     df['signal_MR'] = df['signal_MR'].ffill().fillna(0)
     df['strategy_MR'] = df['signal_MR'].shift(1)*df['return']
+    
+    # strategy cumulated / returns cumulated / max value cumulated
     df['cum_strategy_MR'] = df['strategy_MR'].dropna().cumsum().apply(np.exp)
     df['cum_return_MR'] = df['return'].dropna().cumsum().apply(np.exp)
     df['cum_max_MR'] = df['cum_strategy_MR'].cummax()
@@ -148,7 +151,10 @@ def create_rnn_model(hu=100, lags=5, layer='SimpleRNN',
                            features=1, algorithm='estimation'):
     from keras.models import Sequential
     from keras.layers import SimpleRNN, LSTM, Dense
+    # create model on sequences time series 
     model = Sequential()
+    
+    # conditions and if else structure 
     if layer == 'SimpleRNN':
         model.add(SimpleRNN(hu, activation='relu',
                             input_shape=(lags, features)))
