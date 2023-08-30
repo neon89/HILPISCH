@@ -36,10 +36,11 @@ For python script we are mostly going to work with a jupyter notebook "exam_scri
 Changes to the initial submitted Project:
 I changed the input Price time series from Oil WTI to Oil Brent since i got the chance to get a time serie from 2005 to 2023 which is way better than intra day move of one month from the WTI. I switched in the Sklearn model from the initial Ridge classifier to KNN, since outputs with the other ridge Sklearn model was pretty similar to Logistic classifier. KNN showed very interesting and good results. Simplified the Objection oriented code structure in the last part as code was not running very smoothly on the Callbackfunction - unreliable with hdf5.
 
-Notes to github and google_colab
-The requirement for the submission of the project is that the .ipynb script runs on "google colab" connected with the publication of the github string /content/EXAM_ALGO/. In the first part of the code structre below we need:
+Notes to github and google_colab 
+The requirement for the submission of the project is that the .ipynb script runs on "google colab" connected with the publication of the github. The cloning of the whole repository was making more sense instead of using the wget on the raw scripts as the "README.md" would otherwise produce a code error. In the first part of the code structre below we need:
 
-Connect to the public script in github
-Clone https://github.com/neon89/EXAM_ALGO.git including brent_ohlcv.xlsx and formula_collection.py
-Import with a corrected path the excel data
-Set up the helper function imports for "formula_collection" with mounting google drive & install ipynb
+Connect to the public script in github drop all the necessairy file in git repo (brent_ohlcv.csv, formula_collection.py, README.md, exam_script.ipynb)
+
+Clone https://github.com/neon89/HILPISCH.git including all the files with their different formats ".csv", ".py", ".ipynb", ".md"
+
+Apply the the git command below out of google Colab workbench in order to update changes on the script in github
